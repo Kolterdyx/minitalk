@@ -6,7 +6,7 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 03:21:34 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/02 05:40:04 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/08/20 15:58:57 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	listen(void (handler)(int, siginfo_t *, void *))
 	{
 		sigaction(SIGUSR1, &sa, NULL);
 		sigaction(SIGUSR2, &sa, NULL);
+		sigaction(SIGKILL, &sa, NULL);
+		sigaction(SIGINT, &sa, NULL);
 		pause();
 		usleep(1);
 	}

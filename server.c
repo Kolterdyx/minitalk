@@ -6,7 +6,7 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 01:46:35 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/20 08:36:20 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:00:48 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,13 @@ void	register_end(int hex_size)
 void	sig_handler(int signum, siginfo_t *info,
 		__attribute__((unused)) void *context)
 {
-	if (signum == SIGUSR1)
+	if (signum == SIGKILL || signum == SIGINT)
+	{
+		free(g_msg->msg);
+		free(g_msg);
+		exit(0);
+	}
+	else if (signum == SIGUSR1)
 	{
 		g_msg->buff++;
 		g_msg->msg_print = 0;
