@@ -22,14 +22,12 @@ all: $(SERVER_NAME) $(CLIENT_NAME)
 
 $(CLIENT_NAME): $(CLIENT_OBJS)
 	make -C libft
-	make -C ft_printf
-	$(CC) $(CFLAGS) $(CLIENT_OBJS) libft/libft.a ft_printf/libftprintf.a -o $(CLIENT_NAME)
+	$(CC) $(CFLAGS) $(CLIENT_OBJS) libft/libft.a -o $(CLIENT_NAME)
 
 
 $(SERVER_NAME): $(SERVER_OBJS)
 	make -C libft
-	make -C ft_printf
-	$(CC) $(CFLAGS) $(SERVER_OBJS) libft/libft.a ft_printf/libftprintf.a -o $(SERVER_NAME)
+	$(CC) $(CFLAGS) $(SERVER_OBJS) libft/libft.a -o $(SERVER_NAME)
 
 
 .PHONY: all clean fclean re
@@ -38,11 +36,9 @@ $(SERVER_NAME): $(SERVER_OBJS)
 clean:
 	rm $(SERVER_OBJS) $(CLIENT_OBJS)
 	make -C libft clean
-	make -C ft_printf clean
 
 fclean: clean
 	rm $(SERVER_NAME) $(CLIENT_NAME)
 	make -C libft fclean
-	make -C ft_printf fclean
 
 re: clean fclean all

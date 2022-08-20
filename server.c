@@ -6,7 +6,7 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 01:46:35 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/02 05:39:34 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/08/20 08:36:20 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ void	handle_msg(char *msg, __attribute__((unused)) int sender)
 	}
 	ft_printf("%s\n", msg);
 	send_msg("Message received", sender, 20);
+	if (!ft_strncmp(msg, "exit", 4))
+	{
+		free(g_msg->msg);
+		free(g_msg);
+		exit(0);
+	}
 }
 
 void	register_end(int hex_size)
@@ -77,5 +83,4 @@ int	main(void)
 	g_msg = create_msg(1024 * 1024);
 	ft_printf("%d\n", getpid());
 	listen(sig_handler);
-	return (0);
 }

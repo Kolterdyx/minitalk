@@ -6,14 +6,13 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 01:46:48 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/02 04:44:52 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/08/20 08:28:27 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
 # include <signal.h>
 # include <stdio.h>

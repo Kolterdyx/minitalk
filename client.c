@@ -6,7 +6,7 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 01:46:37 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/02 05:46:25 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/08/20 08:39:21 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static t_msg	*g_msg;
 void	handle_msg(char *msg, __attribute__((unused)) int sender)
 {
 	ft_printf("%s\n", msg);
+	free(g_msg->msg);
+	free(g_msg);
 	exit(0);
 }
 
@@ -79,4 +81,5 @@ int	main(int argc, char **argv)
 	pid = ft_atoi(argv[1]);
 	send_msg(argv[2], pid, delay);
 	listen(sig_handler);
+	free(g_msg->msg);
 }
