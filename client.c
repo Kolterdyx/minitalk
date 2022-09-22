@@ -6,65 +6,38 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 01:46:37 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/20 08:39:21 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 10:17:38 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static t_msg	*g_msg;
-
-void	handle_msg(char *msg, __attribute__((unused)) int sender)
-{
-	ft_printf("%s\n", msg);
-	free(g_msg->msg);
-	free(g_msg);
-	exit(0);
-}
-
-void	register_end(int hex_size)
-{
-	if (g_msg->buff == 0 && g_msg->byte_part == 0)
-	{
-		g_msg->msg_print++;
-		return ;
-	}
-	if (g_msg->byte_part < hex_size - 1)
-	{
-		g_msg->msg[g_msg->msg_len] = g_msg->buff + g_msg->msg[g_msg->msg_len]
-			* 16;
-		g_msg->buff = 0;
-		g_msg->byte_part++;
-	}
-	else if (g_msg->byte_part == hex_size - 1)
-	{
-		g_msg->msg[g_msg->msg_len] = g_msg->buff + g_msg->msg[g_msg->msg_len]
-			* 16;
-		g_msg->buff = 0;
-		g_msg->byte_part = 0;
-		g_msg->msg_len++;
-	}
-}
-
-void	sig_handler(int signum, siginfo_t *info,
+void	sig_handler(int signum, __attribute__((unused)) siginfo_t *info,
 		__attribute__((unused)) void *context)
 {
+	static char	c;
+	static int	bits;
+
 	if (signum == SIGUSR1)
 	{
-		g_msg->buff++;
-		g_msg->msg_print = 0;
-	}
-	if (g_msg->msg_print == 3)
-	{
-		handle_msg(g_msg->msg, info->si_pid);
-		free(g_msg->msg);
-		g_msg->msg_len = 0;
-		g_msg->msg = ft_calloc(g_msg->max_size, 1);
-		g_msg->msg_print = 0;
-		g_msg->byte_part = 0;
+		bits++;
 	}
 	else if (signum == SIGUSR2)
-		register_end(2);
+	{
+		c += 1 << bits;
+		bits++;
+	}
+	if (bits == 8)
+	{
+		if (c == 0)
+		{
+			write(1, "\n", 1);
+			exit(0);
+		}
+		write(1, &c, 1);
+		bits = 0;
+		c = 0;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -77,9 +50,7 @@ int	main(int argc, char **argv)
 	b = '?';
 	if (argc != 3)
 		return (0);
-	g_msg = create_msg(1024 * 1024);
 	pid = ft_atoi(argv[1]);
 	send_msg(argv[2], pid, delay);
 	listen(sig_handler);
-	free(g_msg->msg);
 }

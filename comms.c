@@ -6,7 +6,7 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 03:21:34 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/20 15:58:57 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 10:16:21 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,20 @@
 
 void	send_byte(char b, pid_t pid, int delay)
 {
-	int	h[2];
-	int	i;
-	int	j;
+	int		i;
+	char	j;
 
-	j = 2;
-	h[0] = b % 16;
-	h[1] = b / 16;
+	i = 0;
+	j = 1;
 	usleep(delay);
-	while (j > 0)
+	while (i < 8)
 	{
-		j--;
-		i = 0;
-		while (i < h[j])
-		{
+		if (j & b)
+			send_signal(SIGUSR2, pid, delay);
+		else
 			send_signal(SIGUSR1, pid, delay);
-			i++;
-		}
-		send_signal(SIGUSR2, pid, delay);
+		j <<= 1;
+		i++;
 	}
 }
 
@@ -45,21 +41,7 @@ void	send_msg(char *msg, pid_t pid, int delay)
 		send_byte(msg[i], pid, delay);
 		i++;
 	}
-	send_msg_end(pid, delay);
-}
-
-t_msg	*create_msg(int max_size)
-{
-	t_msg	*msg;
-
-	msg = ft_calloc(1, sizeof(t_msg));
-	msg->max_size = max_size;
-	msg->buff = 0;
-	msg->msg = ft_calloc(max_size + 1, 1);
-	msg->msg_len = 0;
-	msg->msg_print = 0;
-	msg->byte_part = 0;
-	return (msg);
+	send_byte((char)0, pid, delay);
 }
 
 void	listen(void (handler)(int, siginfo_t *, void *))
@@ -72,9 +54,13 @@ void	listen(void (handler)(int, siginfo_t *, void *))
 	{
 		sigaction(SIGUSR1, &sa, NULL);
 		sigaction(SIGUSR2, &sa, NULL);
-		sigaction(SIGKILL, &sa, NULL);
-		sigaction(SIGINT, &sa, NULL);
 		pause();
 		usleep(1);
 	}
+}
+
+void	send_signal(int signal, pid_t pid, int delay)
+{
+	kill(pid, signal);
+	usleep(delay);
 }

@@ -7,9 +7,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 CLIENT_NAME = client
 SERVER_NAME = server
 
-SERVER_SRCS = server.c comms.c comms_utils.c
-CLIENT_SRCS = client.c comms.c comms_utils.c
-
+SERVER_SRCS = server.c comms.c
+CLIENT_SRCS = client.c comms.c
 
 SERVER_OBJS = $(SERVER_SRCS:.c=.o)
 CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
@@ -34,11 +33,11 @@ $(SERVER_NAME): $(SERVER_OBJS)
 
 
 clean:
-	rm $(SERVER_OBJS) $(CLIENT_OBJS)
+	rm -f $(SERVER_OBJS) $(CLIENT_OBJS)
 	make -C libft clean
 
 fclean: clean
-	rm $(SERVER_NAME) $(CLIENT_NAME)
+	rm -f $(SERVER_NAME) $(CLIENT_NAME)
 	make -C libft fclean
 
 re: clean fclean all

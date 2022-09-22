@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comms_utils.c                                      :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/02 03:55:13 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/02 04:45:26 by cigarcia         ###   ########.fr       */
+/*   Created: 2022/04/20 05:58:05 by cigarcia          #+#    #+#             */
+/*   Updated: 2022/04/25 20:04:24 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
-
-void	send_signal(int signal, pid_t pid, int delay)
+int	ft_toupper(int c)
 {
-	kill(pid, signal);
-	usleep(delay);
-}
-
-void	send_msg_end(pid_t pid, int delay)
-{
-	send_signal(SIGUSR2, pid, delay);
-	send_signal(SIGUSR2, pid, delay);
-	send_signal(SIGUSR2, pid, delay);
-	send_signal(SIGUSR2, pid, delay);
-	send_signal(SIGUSR2, pid, delay);
+	return ((c - 32) * (c >= 'a' && c <= 'z') + (c < 'a' || c > 'z') * c);
 }

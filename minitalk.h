@@ -6,7 +6,7 @@
 /*   By: cigarcia <cigarcia@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 01:46:48 by cigarcia          #+#    #+#             */
-/*   Updated: 2022/08/20 08:28:27 by cigarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 10:02:39 by cigarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ typedef struct s_msg
 }			t_msg;
 
 void		send_msg(char *msg, pid_t pid, int delay);
-t_msg		*create_msg(int max_size);
 void		listen(void (handler)(int, siginfo_t *, void *));
 void		send_byte(char b, pid_t pid, int delay);
 void		send_signal(int signal, pid_t pid, int delay);
-void		send_msg_end(pid_t pid, int delay);
 
 #endif
